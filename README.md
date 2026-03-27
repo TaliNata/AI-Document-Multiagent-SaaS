@@ -18,12 +18,12 @@ AI-система, которая принимает документы (PDF, DO
 ├──────────────────────────────────────────────────────────────┤
 │  Nginx — TLS 1.3 · Rate Limiting · Security Headers          │
 ├──────────────────────────────────────────────────────────────┤
-│  FastAPI — JWT Auth · RLS Middleware · REST API               │
+│  FastAPI — JWT Auth · RLS Middleware · REST API              │
 ├───────────────────────┬──────────────────────────────────────┤
-│  Celery Workers       │  LangGraph Orchestrator               │
+│  Celery Workers       │  LangGraph Orchestrator              │
 │  • PDF/DOCX/OCR parse │  • Chat Agent (RAG → LLM)            │
-│  • Email intake       │  • Analyst Agent (classify + extract) │
-│  • Periodic tasks     │  • Generator Agent (templates)        │
+│  • Email intake       │  • Analyst Agent (classify + extract)│
+│  • Periodic tasks     │  • Generator Agent (templates)       │
 ├───────────────────────┴──────────────────────────────────────┤
 │  LLM Router (litellm) — Claude Sonnet ↔ GPT-4o-mini          │
 │  PII Masking — ИНН, паспорт, email → [PLACEHOLDER] → unmask  │
