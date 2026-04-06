@@ -23,25 +23,38 @@ This system ingests business documents (PDF, DOCX, XLSX, scans), extracts struct
 
 ## Architecture
 
-┌──────────────────────────────────────────────────────────────┐
-│ Frontend — React 18 + TypeScript + Vite + TailwindCSS │
-│ Chat UI · Document Dashboard · Drag-and-drop Upload │
-├──────────────────────────────────────────────────────────────┤
-│ Nginx — TLS 1.3 · Rate Limiting · Security Headers │
-├──────────────────────────────────────────────────────────────┤
-│ FastAPI — JWT Auth · RLS Middleware · REST API │
-├───────────────────────┬──────────────────────────────────────┤
-│ Celery Workers │ LangGraph Orchestrator │
-│ • PDF/DOCX/OCR parse │ • Chat Agent (RAG → LLM) │
-│ • Email intake │ • Analyst Agent (classify + extract)│
-│ • Periodic tasks │ • Generator Agent (templates) │
-├───────────────────────┴──────────────────────────────────────┤
-│ LLM Router (litellm) — Claude Sonnet ↔ GPT-4o-mini │
-│ PII Masking — sensitive data → masked → LLM → unmasked │
-├────────────┬───────────┬───────────┬─────────────────────────┤
-│ PostgreSQL │ Qdrant │ Redis │ MinIO (S3-compatible) │
-│ + RLS │ vectors │ queues │ file storage │
-└────────────┴───────────┴───────────┴─────────────────────────┘
+```mermaid
+flowchart TD
+
+    %% Frontend
+    A[Frontend<br/>React + TypeScript] --> B[Nginx<br/>TLS · Rate Limiting]
+
+    %% Backend API
+    B --> C[FastAPI Backend<br/>JWT · RLS · REST API]
+
+    %% Agents & Workers
+    C --> D[LangGraph Orchestrator]
+    C --> E[Celery Workers]
+
+    %% Agents
+    D --> D1[Chat Agent<br/>RAG → LLM]
+    D --> D2[Analyst Agent<br/>Classify + Extract]
+    D --> D3[Generator Agent<br/>Templates]
+
+    %% Workers
+    E --> E1[Document Parsing<br/>PDF / DOCX / OCR]
+    E --> E2[Email Intake]
+    E --> E3[Background Jobs]
+
+    %% LLM Layer
+    D --> F[LLM Router<br/>Claude ↔ GPT-4o-mini]
+    F --> G[PII Masking]
+
+    %% Storage
+    C --> H[(PostgreSQL<br/>RLS)]
+    C --> I[(Qdrant<br/>Vector DB)]
+    C --> J[(Redis<br/>Cache + Queue)]
+    C --> K[(MinIO<br/>S3 Storage)]
 
 ---
 
