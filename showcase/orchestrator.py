@@ -34,6 +34,7 @@ logger = logging.getLogger(__name__)
 # ─── State schema ─────────────────────────────────────────────
 class AgentState(TypedDict):
     """State passed between nodes in the graph."""
+
     # Input
     user_message: str
     org_id: str
@@ -50,14 +51,26 @@ class AgentState(TypedDict):
 
 
 # ─── Node: Classify intent ────────────────────────────────────
-INTENT_PROMPT = """Определи намерение пользователя. Ответь ОДНИМ словом:
+INTENT_PROMPT = """
+Classify the user request into ONE of the following intents:
 
-- question — пользователь задаёт вопрос по документам (примеры: "какая сумма в договоре?", "что написано в пункте 3?", "расскажи про этот документ")
-- analyze — пользователь хочет анализ документа (примеры: "извлеки данные из счёта", "найди ключевые даты", "определи тип документа")
-- generate — пользователь хочет создать или написать документ (примеры: "напиши письмо", "создай акт", "сгенерируй ответ")
-- search — пользователь ищет конкретный документ или факт (примеры: "найди договор с Ромашкой", "где счёт за январь?", "покажи последний акт")
+1. search — user is asking a question about documents
+2. extract — user wants structured data extracted (fields, entities)
+3. summarize — user wants a summary of a document
+4. generate — user wants content generation (text, response, rewrite)
+5. general — general question not tied to documents
 
-Ответь ТОЛЬКО одним словом."""
+Return ONLY valid JSON:
+
+{
+  "intent": "search | extract | summarize | generate | general"
+}
+
+Rules:
+- Do not explain your choice
+- Do not add extra fields
+- Always return exactly one intent
+"""
 
 
 async def classify_intent(state: AgentState) -> AgentState:
@@ -74,7 +87,9 @@ async def classify_intent(state: AgentState) -> AgentState:
     if intent not in valid_intents:
         intent = "question"  # default fallback
 
-    logger.info(f"Intent classified: '{intent}' for message: '{state['user_message'][:50]}...'")
+    logger.info(
+        f"Intent classified: '{intent}' for message: '{state['user_message'][:50]}...'"
+    )
 
     return {**state, "intent": intent}
 
@@ -196,7 +211,9 @@ async def handle_search(state: AgentState) -> AgentState:
 
 
 # ─── Router ──────────────────────────────────────────────────
-def route_by_intent(state: AgentState) -> Literal["question", "analyze", "generate", "search"]:
+def route_by_intent(
+    state: AgentState,
+) -> Literal["question", "analyze", "generate", "search"]:
     """Conditional edge — routes to the correct handler node."""
     return state["intent"]
 
