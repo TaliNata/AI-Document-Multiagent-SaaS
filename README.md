@@ -78,18 +78,18 @@ This guarantees that data from different organizations never leaks, even if busi
 ### 2. Multi-agent orchestration (LangGraph)
 
 State machine with conditional routing:
-
+```
 [START] → classify_intent → route
                               ├─ "question"  → Chat Agent
                               ├─ "analyze"   → Analyst Agent
                               ├─ "generate"  → Generator Agent
                               └─ "search"    → RAG Search
-
+```
 Why LangGraph:
 
-explicit state transitions
-extensible agent system
-retry and persistence support
+- explicit state transitions
+- extensible agent system
+- retry and persistence support
 
 ### 3. Multi-model LLM routing
 
@@ -135,27 +135,30 @@ application → database → vector DB → LLM → infrastructure
 ---
 
 ## Tech Stack
-Layer	Technologies
+```
+Layer	    Technologies
 Frontend	React 18, TypeScript, Vite, TailwindCSS
-Backend	FastAPI, SQLAlchemy 2.0, asyncpg
-AI	LangGraph, LangChain, LiteLLM
-LLMs	Claude Sonnet, GPT-4o-mini
-RAG	Qdrant, embeddings, chunking
-Parsing	pymupdf, python-docx, openpyxl, Tesseract
-Infra	Docker Compose, Nginx, Redis, PostgreSQL, MinIO
-
+Backend	    FastAPI, SQLAlchemy 2.0, asyncpg
+AI	        LangGraph, LangChain, LiteLLM
+LLMs	    Claude Sonnet
+RAG	        Qdrant, embeddings, chunking
+Parsing	    pymupdf, python-docx, openpyxl, Tesseract
+Infra	    Docker Compose, Nginx, Redis, PostgreSQL, MinIO
+```
 ---
 
 ## Security
+```
 JWT authentication + RBAC
 PostgreSQL Row-Level Security
 PII masking before LLM calls
 Redis rate limiting
 Audit logging
-
+```
 ---
 
 ## Project Structure
+```
 backend/
   app/
     agents/
@@ -169,19 +172,22 @@ frontend/
 infra/
 deploy/
 docker-compose.yml
-
+```
 ---
 
 ## Showcase Modules
-File	Description
-orchestrator.py	LangGraph orchestration
-deps.py	RLS + dependency injection
-pii_masking.py	PII masking system
-parse_document.py	Full document pipeline
+```
+File	           Description
 
+orchestrator.py	   LangGraph orchestration
+deps.py	           RLS + dependency injection
+pii_masking.py	   PII masking system
+parse_document.py  Full document pipeline
+```
 ---
 
 ## Metrics
+```
 85 source files
 10 Docker services
 4 AI agents
@@ -189,7 +195,7 @@ parse_document.py	Full document pipeline
 12 PostgreSQL tables with RLS
 ~30 tests
 3 ingestion channels (web, Telegram, email)
-
+```
 ---
 
 ## Key Takeaway
