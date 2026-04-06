@@ -22,7 +22,7 @@ This system ingests business documents (PDF, DOCX, XLSX, scans), extracts struct
 ---
 
 ## Architecture
-
+```
 ┌──────────────────────────────────────────────────────────────┐
 │ Frontend — React 18 + TypeScript + Vite + TailwindCSS        │
 │ Chat UI · Document Dashboard · Drag-and-drop Upload          │
@@ -42,7 +42,7 @@ This system ingests business documents (PDF, DOCX, XLSX, scans), extracts struct
 │ PostgreSQL │ Qdrant    │ Redis     │ MinIO (S3-compatible)   │
 │ + RLS      │ vectors   │ queues    │ file storage            │
 └────────────┴───────────┴───────────┴─────────────────────────┘
-
+```
 ---
 
 ## System Flow
