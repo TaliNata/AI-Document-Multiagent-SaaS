@@ -1,3 +1,6 @@
-.DS_Store
-.vscode/
-.idea/
+.env
+infra/nginx/ssl/
+backups/
+__pycache__/
+node_modules/
+frontend/dist/
