@@ -83,7 +83,7 @@ Each trace captures:
 
 ### LangSmith trace screenshot
 
-![LangSmith trace](docs/langsmith_trace.png)
+<img width="1907" height="797" alt="Снимок экрана 2026-06-02 221930" src="https://github.com/user-attachments/assets/83aeb390-6e76-4e16-a0a9-dee128b900a9" />
 
 *Full graph trace: classify_intent → route_by_intent → question handler. Intent correctly classified, RAG context retrieved (score 0.95), response generated in 11s total.*
 
